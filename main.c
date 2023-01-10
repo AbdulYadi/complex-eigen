@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
-#include <values.h>
-#include <sys/param.h>
+//#include <values.h>
+//#include <sys/param.h>
 #include "hessenberg.h"
 #include "schur.h"
 #include "eigen.h"

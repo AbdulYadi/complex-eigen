@@ -144,6 +144,11 @@ void matrix_create(unsigned int rows, unsigned int cols, matrix* m)
     m->data = (complex*)calloc(rows * cols, sizeof(complex));
 }
 
+bool matrix_is_squared(const matrix* m)
+{
+    return m->rows>0 && m->rows==m->cols;
+}
+
 void matrix_init(matrix* m)
 {
     m->rows = m->cols = 0;

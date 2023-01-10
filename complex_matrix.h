@@ -47,6 +47,7 @@ typedef struct vector {
 #define VECTORP(PV,IDX) (PV)->data[IDX]
 
 extern void matrix_create(unsigned int rows, unsigned int cols, matrix* m);
+extern bool matrix_is_squared(const matrix* m);
 extern void matrix_init(matrix* m);
 extern void matrix_destroy(matrix* m);
 extern void matrix_fill(matrix* m, ...);

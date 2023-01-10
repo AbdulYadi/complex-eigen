@@ -1,20 +1,21 @@
 #include <math.h>
 #include <values.h>
 #include <sys/param.h>
-#include <stdbool.h>
 #include "hessenberg.h"
 #include "schur.h"
+#include "eigen.h"
 
 static void rightvec(matrix *t, matrix *x);
 
 unsigned int eigen(const matrix *m, vector *eigenval, matrix *eigenvec)
 {
-////assumption: m should be squared
     matrix h, q, x;
     unsigned int err, i;
-
     complex *tmp, denom;
     bool hit;
+
+    if(!matrix_is_squared(m))
+        return EIGEN_CODE_NON_SQUARED_INPUT;
 
     matrix_init(&h);
     matrix_init(&q);
@@ -47,6 +48,8 @@ unsigned int eigen(const matrix *m, vector *eigenval, matrix *eigenvec)
                     complex_self_div(&MATRIXP(eigenvec, r, c), &denom);
             }
         }
+
+        err = EIGEN_CODE_OK;
     }
 
     matrix_destroy(&h);
@@ -60,6 +63,13 @@ const char* eigen_err(unsigned int code)
 {
     if(code>=SCHUR_CODE_MIN && code<=SCHUR_CODE_MAX)
         return schur_err(code);
+    switch(code)
+    {
+        case EIGEN_CODE_OK:
+            return "Successful";
+        case EIGEN_CODE_NON_SQUARED_INPUT:
+            return "Input matrix is not squared";
+    }
     return "Unknown";
 }
 
@@ -67,7 +77,7 @@ bool eigen_success(unsigned int code)
 {
     if(code>=SCHUR_CODE_MIN && code<=SCHUR_CODE_MAX)
         return code==SCHUR_CODE_OK;
-    return false;
+    return code==EIGEN_CODE_OK;
 }
 
 static void rightvec(matrix *t, matrix *x)

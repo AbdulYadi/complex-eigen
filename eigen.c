@@ -75,9 +75,7 @@ const char* eigen_err(unsigned int code)
 
 bool eigen_success(unsigned int code)
 {
-    if(code>=SCHUR_CODE_MIN && code<=SCHUR_CODE_MAX)
-        return code==SCHUR_CODE_OK;
-    return code==EIGEN_CODE_OK;
+    return code==EIGEN_CODE_OK || code==SCHUR_CODE_OK;
 }
 
 static void rightvec(matrix *t, matrix *x)
